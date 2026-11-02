@@ -1,122 +1,79 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from "react";
+import Header from "./components/Header";
+import Ringkasan from "./components/Ringkasan";
+import FormTambah from "./components/FormTambah";
+import DaftarSerial from "./components/DaftarSerial";
+
+const dataAwal = [
+  {
+    id: 1,
+    judul: "Kamen Rider Kuuga",
+    tahun: 2000,
+    genre: "Kamen Rider",
+    jumlahEpisode: 49,
+    status: "Tamat",
+    sinopsis: "Yusuke Godai mendapat kekuatan Arcle dan melawan kaum Grongi.",
+  },
+  {
+    id: 2,
+    judul: "Kamen Rider Build",
+    tahun: 2017,
+    genre: "Kamen Rider",
+    jumlahEpisode: 49,
+    status: "Tamat",
+    sinopsis: "Fisikawan Sento Kiryu bertarung memakai kekuatan Best Match.",
+  },
+  {
+    id: 3,
+    judul: "Himitsu Sentai Goranger",
+    tahun: 1975,
+    genre: "Super Sentai",
+    jumlahEpisode: 84,
+    status: "Tamat",
+    sinopsis: "Lima pahlawan berkostum warna melawan organisasi kejahatan Black Cross.",
+  },
+  {
+    id: 4,
+    judul: "Kyoryu Sentai Zyuranger",
+    tahun: 1992,
+    genre: "Super Sentai",
+    jumlahEpisode: 50,
+    status: "Tamat",
+    sinopsis: "Para ksatria dinosaurus bangkit untuk menghentikan Bandora.",
+  },
+  {
+    id: 5,
+    judul: "Ultraman",
+    tahun: 1966,
+    genre: "Ultraman",
+    jumlahEpisode: 39,
+    status: "Tamat",
+    sinopsis: "Hayata dari Science Patrol menjadi raksasa perak pelindung Bumi.",
+  },
+];
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [daftarSerial, setDaftarSerial] = useState(dataAwal);
+
+  const handleTambah = (serialBaru) => {
+    setDaftarSerial([...daftarSerial, { ...serialBaru, id: Date.now() }]);
+  };
+
+  const total = daftarSerial.length;
+  const totalTamat = daftarSerial.filter((s) => s.status === "Tamat").length;
+  const totalTayang = total - totalTamat;
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+    <div className="container">
+      <Header
+        judul="Katalog Tokusatsu"
+        subjudul="Kumpulan serial Kamen Rider, Super Sentai, dan Ultraman"
+      />
+      <Ringkasan total={total} totalTamat={totalTamat} totalTayang={totalTayang} />
+      <FormTambah onTambah={handleTambah} />
+      <DaftarSerial daftar={daftarSerial} />
+    </div>
+  );
 }
 
-export default App
+export default App;
